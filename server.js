@@ -20,9 +20,15 @@ if (app.get('env') === 'development') {
   app.use(require('cors')())
 }
 
-app.get('/', (req, res) => {
-  res.send('hi')
-})
+const { sendErrorMessage } = require('./lib/errorHandlers')
+const categoryRoute = require('./routes/category')
+const coursesRoute = require('./routes/courses')
+const courseRoute = require('./routes/course')
+
+app.use('/api/category', categoryRoute)
+app.use('/api/courses', coursesRoute)
+app.use('/api/course', courseRoute)
+app.use(sendErrorMessage)
 
 if (app.get('env') === 'production') {
   app.get('*', (req, res) => {
