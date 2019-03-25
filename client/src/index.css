@@ -3,5 +3,9 @@
 }
 
 .letter-spacing {
-  letter-spacing: 1px;
+  letter-spacing: 1px !important;
+}
+
+.hover-underline:hover {
+  text-decoration: underline;
 }
