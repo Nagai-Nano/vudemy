@@ -2,7 +2,9 @@
   <v-container fluid pa-0 ma-0>
     <v-layout wrap v-if="!isLoading">
       <HeadTitle :title="title" />
-      <CourseGrid :courses="courses" />
+      <InfiniteScroll :has-next="hasNext" :is-loading="isLoading" @loadmore="loadmore">
+        <CourseGrid :courses="courses" />
+      </InfiniteScroll>
     </v-layout>
     <div v-if="isLoading">loading ....</div>
   </v-container>
@@ -13,6 +15,7 @@ import { mapState, mapMutations } from 'vuex'
 import request from '@/lib/request'
 import HeadTitle from '@/components/common/HeadTitle'
 import CourseGrid from '@/components/common/CourseGrid'
+import InfiniteScroll from '@/components/HOC/InfiniteScroll'
 
 export default {
   props: {
@@ -37,13 +40,17 @@ export default {
   },
   components: {
     HeadTitle,
-    CourseGrid
+    CourseGrid,
+    InfiniteScroll
   },
   computed: {
     ...mapState(['isLoading', 'categories'])
   },
   methods: {
-    ...mapMutations(['SET_LOADING'])
+    ...mapMutations(['SET_LOADING']),
+    loadmore() {
+      console.log('moree')
+    }
   },
   async created() {
     this.SET_LOADING(true)
