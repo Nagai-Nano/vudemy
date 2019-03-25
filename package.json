@@ -1,0 +1,24 @@
+{
+  "name": "vudemy",
+  "version": "1.0.0",
+  "description": "Express x Vue app in order to watch and download my Udemy courses",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nanu <sdjkrskldada@gmail.com> (https://www.facebook.com/Nanoooooooooooooooooooooooooooooooooooooooooooooox)",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "compression": "^1.7.4",
+    "express": "^4.16.4",
+    "helmet": "^3.16.0"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.10",
+    "prettier": "^1.16.4"
+  }
+}
