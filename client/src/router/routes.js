@@ -3,7 +3,11 @@ import Home from '@/views/Home'
 export default [
   {
     path: '/',
-    name: 'home',
     component: Home
+  },
+  {
+    path: '/courses',
+    component: () => import('@/views/Courses.vue'),
+    props: route => ({ ...route.query })
   }
 ]

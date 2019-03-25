@@ -29,9 +29,9 @@
             </v-toolbar-title>
           </template>
 
-          <template v-if="category.length">
+          <template v-if="categories.length">
             <v-list class="py-0 grey darken-4">
-              <v-list-tile v-for="cat in category" :key="cat.id">
+              <v-list-tile v-for="cat in categories" :key="cat.id">
                 <v-list-tile-title>
                   <router-link
                     :to="`/courses/?category_id=${cat.id}`"
@@ -50,16 +50,17 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
-  data() {
-    return {
-      category: []
-    }
+  computed: {
+    ...mapGetters(['categories'])
   },
-  async created() {
-    const response = await fetch('/api/category')
-    const json = await response.json()
-    this.category = json.categories
+  methods: {
+    ...mapActions(['getCategories'])
+  },
+  created() {
+    this.getCategories()
   }
 }
 </script>

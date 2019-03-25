@@ -1,5 +1,6 @@
 <template>
-  <v-container fluid pa-0 ma-0>
+  <div v-if="isLoading">loading...</div>
+  <v-container fluid pa-0 ma-0 v-else>
     <v-layout wrap v-for="(section, index) in sections" :key="index">
       <HeadTitle :title="section.title" :class="{ 'mt-3': index > 0 }" />
       <v-flex xs12 v-if="section.courses.length">
@@ -18,6 +19,8 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+import request from '@/lib/request'
 import HeadTitle from '@/components/common/HeadTitle'
 import CourseGrid from '@/components/common/CourseGrid'
 
@@ -27,19 +30,19 @@ export default {
       sections: [
         {
           title: 'recently enrolled',
-          api: '/api/courses',
+          api: '/courses',
           url: '/courses',
           courses: []
         },
         {
           title: 'it & software',
-          api: '/api/courses?id=294',
+          api: '/courses?id=294',
           url: '/courses/?category_id=294',
           courses: []
         },
         {
           title: 'photography',
-          api: '/api/courses?id=273',
+          api: '/courses?id=273',
           url: '/courses/?category_id=273',
           courses: []
         }
@@ -50,11 +53,21 @@ export default {
     HeadTitle,
     CourseGrid
   },
+  computed: {
+    ...mapState(['isLoading'])
+  },
+  methods: {
+    ...mapMutations(['SET_LOADING'])
+  },
   async created() {
-    const responses = await Promise.all(this.sections.map(s => fetch(s.api).then(r => r.json())))
+    this.SET_LOADING(true)
+
+    const responses = await Promise.all(this.sections.map(s => request(s.api)))
     this.sections.forEach((_, i) => {
       this.sections[i].courses = responses[i].courses
     })
+
+    this.SET_LOADING(false)
   }
 }
 </script>
