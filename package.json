@@ -4,7 +4,8 @@
   "description": "Express x Vue app in order to watch and download my Udemy courses",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "server": "nodemon server.js"
   },
   "author": "Nanu <sdjkrskldada@gmail.com> (https://www.facebook.com/Nanoooooooooooooooooooooooooooooooooooooooooooooox)",
   "license": "MIT",
