@@ -6,6 +6,9 @@ const { join } = require('path')
 const express = require('express')
 const helmet = require('helmet')
 const compression = require('compression')
+const axios = require('axios')
+
+axios.defaults.headers.common['authorization'] = 'Bearer ' + process.env.UDEMY_TOKEN
 
 const app = express()
 const port = process.env.PORT || 1337
