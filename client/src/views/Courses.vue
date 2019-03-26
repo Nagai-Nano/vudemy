@@ -1,12 +1,12 @@
 <template>
   <v-container fluid pa-0 ma-0>
-    <v-layout wrap v-if="courses.length || !isLoading">
+    <v-layout wrap v-if="!isLoading || courses.length">
       <HeadTitle :title="title" />
       <InfiniteScroll :has-next="hasNext" :is-loading="isLoading" @loadmore="loadmore">
         <CourseGrid :courses="courses" />
       </InfiniteScroll>
-      <div v-if="isLoading">loading ....</div>
     </v-layout>
+    <div v-if="isLoading">loading ....</div>
   </v-container>
 </template>
 
@@ -25,7 +25,7 @@ export default {
   data() {
     let query
     this.category_id
-      ? (query = `?category_id=${this.category_id}&page=`)
+      ? (query = `?id=${this.category_id}&page=`)
       : this.search
       ? (query = `?search=${this.search}&page=`)
       : (query = '?page=')
@@ -63,6 +63,12 @@ export default {
     this.SET_LOADING(true)
 
     const response = await request(`/courses${this.query}${this.page}`)
+
+    if (response.courses.length === 0) {
+      this.$router.replace('/error')
+      return
+    }
+
     this.courses = response.courses
     this.hasNext = response.next
 
