@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoading">loading...</div>
+  <Loading v-if="isLoading" />
   <v-container fluid pa-0 ma-0 v-else>
     <v-layout wrap v-for="(section, index) in sections" :key="index">
       <HeadTitle :title="section.title" :class="{ 'mt-3': index > 0 }" />
@@ -23,6 +23,7 @@ import { mapState, mapMutations } from 'vuex'
 import request from '@/lib/request'
 import HeadTitle from '@/components/common/HeadTitle'
 import CourseGrid from '@/components/common/CourseGrid'
+import Loading from '@/components/common/Loading'
 
 export default {
   data() {
@@ -51,7 +52,8 @@ export default {
   },
   components: {
     HeadTitle,
-    CourseGrid
+    CourseGrid,
+    Loading
   },
   computed: {
     ...mapState(['isLoading'])

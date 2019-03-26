@@ -11,6 +11,16 @@ export default [
     props: route => ({ ...route.query })
   },
   {
+    path: '/course/:id/detail',
+    component: () => import('@/views/Detail.vue'),
+    props: true
+  },
+  {
+    path: '/course/:id/watch',
+    component: () => import('@/views/Watch.vue'),
+    props: true
+  },
+  {
     path: '/error',
     name: 'error',
     component: () => import('@/views/Error.vue'),

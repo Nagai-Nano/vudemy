@@ -4,7 +4,7 @@ exports.getCourseDetail = async (req, res, next) => {
   const { id } = req.params
 
   const { data } = await axios.get(
-    `https://www.udemy.com/api-2.0/courses/${id}?fields[course]=num_subscribers,num_published_lectures,instructional_level,content_info,description,headline,visible_instructors,image_750x422&fields[user]=display_name,job_title,image_200_H,description`
+    `https://www.udemy.com/api-2.0/courses/${id}?fields[course]=title,instructional_level,content_info,description,headline,visible_instructors,image_480x270&fields[user]=display_name,job_title,image_200_H,description`
   )
   res.send(data)
 }

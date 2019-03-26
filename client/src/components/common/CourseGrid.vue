@@ -3,14 +3,14 @@
     <v-layout row wrap>
       <v-flex v-for="course in courses" :key="course.id" md3 d-flex>
         <v-card flat hover>
-          <router-link :to="`/course/${course.id}`">
+          <router-link :to="`/course/${course.id}/detail`">
             <ImageItem :src="course.image_240x135" />
           </router-link>
           <v-card-title class="pa-3">
             <div>
               <h3 class="ma-0 subheading font-weight-regular" style="min-height: 48px;">
                 <router-link
-                  :to="`/course/${course.id}`"
+                  :to="`/course/${course.id}/detail`"
                   class="white--text decoration-none hover-underline"
                 >
                   {{ course.title | textTruncate(50) }}
@@ -23,7 +23,7 @@
           </v-card-title>
           <v-card-actions>
             <v-spacer />
-            <v-btn flat class="blue--text text--lighten-2" :to="`/course/${course.id}`">
+            <v-btn flat class="blue--text text--lighten-2" :to="`/course/${course.id}/watch`">
               start course
             </v-btn>
           </v-card-actions>
