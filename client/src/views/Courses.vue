@@ -1,12 +1,12 @@
 <template>
   <v-container fluid pa-0 ma-0>
-    <v-layout wrap v-if="!isLoading">
+    <v-layout wrap v-if="courses.length || !isLoading">
       <HeadTitle :title="title" />
       <InfiniteScroll :has-next="hasNext" :is-loading="isLoading" @loadmore="loadmore">
         <CourseGrid :courses="courses" />
       </InfiniteScroll>
+      <div v-if="isLoading">loading ....</div>
     </v-layout>
-    <div v-if="isLoading">loading ....</div>
   </v-container>
 </template>
 
@@ -48,16 +48,23 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_LOADING']),
-    loadmore() {
-      console.log('moree')
+    async loadmore() {
+      this.SET_LOADING(true)
+      this.page += 1
+
+      const response = await request(`/courses${this.query}${this.page}`)
+      this.courses.push(...response.courses)
+      this.hasNext = response.next
+
+      this.SET_LOADING(false)
     }
   },
   async created() {
     this.SET_LOADING(true)
 
-    const data = await request(`/courses${this.query}${this.page}`)
-    this.courses = data.courses
-    this.hasNext = data.next
+    const response = await request(`/courses${this.query}${this.page}`)
+    this.courses = response.courses
+    this.hasNext = response.next
 
     if (this.category_id) {
       this.title = this.categories.filter(cat => cat.id === +this.category_id)[0].title

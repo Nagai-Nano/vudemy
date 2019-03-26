@@ -2,8 +2,10 @@
   <v-container grid-list-md fluid pa-0 ma-0 mt-3>
     <v-layout row wrap>
       <v-flex v-for="course in courses" :key="course.id" md3 d-flex>
-        <v-card flat>
-          <ImageItem :src="course.image_240x135" />
+        <v-card flat hover>
+          <router-link :to="`/course/${course.id}`">
+            <ImageItem :src="course.image_240x135" />
+          </router-link>
           <v-card-title class="pa-3">
             <div>
               <h3 class="ma-0 subheading font-weight-regular" style="min-height: 48px;">
