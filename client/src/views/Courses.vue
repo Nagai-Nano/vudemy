@@ -6,7 +6,7 @@
         <CourseGrid :courses="courses" />
       </InfiniteScroll>
     </v-layout>
-    <div v-if="isLoading">loading ....</div>
+    <Loading v-if="isLoading" class="mt-3" />
   </v-container>
 </template>
 
@@ -16,6 +16,7 @@ import request from '@/lib/request'
 import HeadTitle from '@/components/common/HeadTitle'
 import CourseGrid from '@/components/common/CourseGrid'
 import InfiniteScroll from '@/components/HOC/InfiniteScroll'
+import Loading from '@/components/common/Loading'
 
 export default {
   props: {
@@ -41,7 +42,8 @@ export default {
   components: {
     HeadTitle,
     CourseGrid,
-    InfiniteScroll
+    InfiniteScroll,
+    Loading
   },
   computed: {
     ...mapState(['isLoading', 'categories'])
