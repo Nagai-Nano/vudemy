@@ -11,13 +11,13 @@ export default [
     props: route => ({ ...route.query })
   },
   {
-    path: '/course/:id/detail',
-    component: () => import('@/views/Detail.vue'),
+    path: '/course/:id/overview',
+    component: () => import('@/views/Overview.vue'),
     props: true
   },
   {
-    path: '/course/:id/watch',
-    component: () => import('@/views/Watch.vue'),
+    path: '/course/:id/learn',
+    component: () => import('@/views/Learn.vue'),
     props: true
   },
   {
