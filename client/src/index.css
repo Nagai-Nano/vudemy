@@ -9,3 +9,27 @@
 .hover-underline:hover {
   text-decoration: underline;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: #232323;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 6px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 7px;
+  background-color: hsla(0, 0%, 100%, 0.6);
+}
