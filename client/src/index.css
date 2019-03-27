@@ -10,6 +10,11 @@
   text-decoration: underline;
 }
 
+.hoverable:hover {
+  background: #616161;
+  cursor: pointer;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;

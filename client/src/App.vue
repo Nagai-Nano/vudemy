@@ -3,7 +3,7 @@
     <v-content>
       <app-header />
       <v-container>
-        <router-view />
+        <router-view :key="$route.fullPath" />
       </v-container>
     </v-content>
   </v-app>

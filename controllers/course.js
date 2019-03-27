@@ -14,7 +14,7 @@ exports.getCourseCurriculum = async (req, res, next) => {
   const { page = 1, size = 1400 } = req.query
 
   const { data } = await axios.get(
-    `https://www.udemy.com/api-2.0/courses/${id}/subscriber-curriculum-items/?page=${page}&page_size=${size}&fields[lecture]=@min,object_index,asset,supplementary_assets&fields[chapter]=@min,description,object_index,title&fields[asset]=@min,title,filename,asset_type,external_url,length,status`
+    `https://www.udemy.com/api-2.0/courses/${id}/subscriber-curriculum-items/?page=${page}&page_size=${size}&fields[lecture]=@min,asset,supplementary_assets&fields[chapter]=@min,object_index,title&fields[asset]=@min,title,filename,asset_type,external_url,length`
   )
 
   let chapterId = -1
