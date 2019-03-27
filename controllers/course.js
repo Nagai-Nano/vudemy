@@ -34,3 +34,12 @@ exports.getCourseCurriculum = async (req, res, next) => {
     results: formattedResults
   })
 }
+
+exports.getCourseTitle = async (req, res, next) => {
+  const { id } = req.params
+  const { data } = await axios.get(
+    `https://www.udemy.com/api-2.0/courses/${id}?fields[course]=title`
+  )
+
+  res.send(data)
+}

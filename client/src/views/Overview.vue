@@ -6,7 +6,7 @@
     </v-layout>
     <v-layout wrap mt-4>
       <v-flex md4>
-        <ImageItem :src="detail.image_480x270" />
+        <ImageItem :src="detail.image_480x270" max-height="270px" />
       </v-flex>
       <v-flex md8 pl-3 class="letter-spacing">
         <h2 class="mb-2 headline font-weight-regular">{{ detail.headline }}</h2>

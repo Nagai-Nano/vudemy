@@ -4,7 +4,7 @@
       <v-flex v-for="course in courses" :key="course.id" md3 d-flex>
         <v-card flat hover>
           <router-link :to="`/course/${course.id}/overview`">
-            <ImageItem :src="course.image_240x135" />
+            <ImageItem :src="course.image_240x135" max-height="135px" />
           </router-link>
           <v-card-title class="pa-3">
             <div>
