@@ -15,6 +15,10 @@
   cursor: pointer;
 }
 
+.mw-100 {
+  min-width: 100% !important;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;

@@ -43,3 +43,12 @@ exports.getCourseTitle = async (req, res, next) => {
 
   res.send(data)
 }
+
+exports.getSource = async (req, res, next) => {
+  const { idCourse, idLecture } = req.params
+  const { data } = await axios.get(
+    `https://www.udemy.com/api-2.0/users/me/subscribed-courses/${idCourse}/lectures/${idLecture}?fields[asset]=@min,captions,thumbnail_url,stream_urls&fields[caption]=@default`
+  )
+
+  res.send(data)
+}
