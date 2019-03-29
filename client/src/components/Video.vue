@@ -42,8 +42,8 @@ export default {
   mounted() {
     this.player = new window.Plyr(this.$refs.video, {
       seekTime: 5,
-      invertTime: false,
-      autoplay: true
+      invertTime: false
+      // autoplay: true
     })
   },
   beforeDestroy() {

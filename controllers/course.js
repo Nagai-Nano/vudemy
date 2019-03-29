@@ -14,11 +14,22 @@ exports.getCourseCurriculum = async (req, res, next) => {
   const { page = 1, size = 1400 } = req.query
 
   const { data } = await axios.get(
-    `https://www.udemy.com/api-2.0/courses/${id}/subscriber-curriculum-items/?page=${page}&page_size=${size}&fields[lecture]=@min,asset,supplementary_assets&fields[chapter]=@min,object_index,title&fields[asset]=@min,title,filename,asset_type,external_url,length`
+    `https://www.udemy.com/api-2.0/courses/${id}/subscriber-curriculum-items/?page=${page}&page_size=${size}&fields[lecture]=@min,object_index,asset,supplementary_assets&fields[chapter]=@min,object_index,title&fields[asset]=@min,title,filename,asset_type,external_url,length`
   )
 
   let chapterId = -1
-  const formattedResults = data.results.reduce((acc, cur) => {
+  const formattedResults = data.results.reduce((acc, cur, index, self) => {
+    if (index === 0 && self[index]._class === 'lecture') {
+      chapterId = index
+      acc.push({
+        id: index,
+        object_index: index,
+        title: '',
+        _class: 'chapter',
+        lectures: []
+      })
+    }
+
     if (cur._class === 'chapter') {
       chapterId += 1
       acc.push({ ...cur, lectures: [] })

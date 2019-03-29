@@ -16,25 +16,26 @@
     </v-layout>
     <v-layout wrap>
       <v-flex xs12>
-        <v-expansion-panel>
+        <v-expansion-panel :value="0">
           <v-expansion-panel-content v-for="chapter in curriculum" :key="chapter.id">
             <template v-slot:header>
               <div class="letter-spacing">
                 <h3 class="text-uppercase font-weight-regular">
                   section {{ chapter.object_index }}:
                 </h3>
-                <h2 class="font-weight-medium">{{ chapter.title }}</h2>
+                <h2 class="font-weight-medium">{{ chapter.title || 'Untitled Section' }}</h2>
               </div>
             </template>
             <v-card class="px-4 mb-3">
-              <template v-for="(lecture, index) in chapter.lectures">
+              <template v-for="lecture in chapter.lectures">
                 <v-card-text :key="lecture.id" v-if="lecture._class !== 'quiz'" class="pa-0">
                   <p
                     @click="setLectureData(lecture)"
-                    class="pa-3 hoverable title font-weight-regular letter-spacing ma-0 d-flex justify-space-around"
+                    class="pa-3 hoverable title font-weight-regular letter-spacing ma-0 d-flex justify-space-around align-center"
+                    :class="{ 'grey darken-2': lecture.object_index === currentIndex }"
                   >
-                    <span>{{ index + 1 }}. {{ lecture.title }}</span>
-                    <span class="text-xs-right">
+                    <span>{{ lecture.object_index }}. {{ lecture.title }}</span>
+                    <span class="text-xs-right subheading">
                       {{ lecture.asset.length | formatTime(lecture.asset.asset_type) }}
                     </span>
                   </p>
@@ -91,6 +92,7 @@ export default {
   },
   data() {
     return {
+      currentIndex: 0,
       title: '',
       curriculum: [],
       lecture: {
@@ -106,7 +108,10 @@ export default {
   methods: {
     ...mapMutations(['SET_LOADING']),
     async downloadAssetFile(id) {},
-    async setLectureData({ id, asset }) {
+    async setLectureData({ id, asset, object_index }) {
+      if (this.currentIndex === object_index) return
+
+      this.currentIndex = object_index
       this.lecture.data = {}
       this.lecture.type = ''
 
