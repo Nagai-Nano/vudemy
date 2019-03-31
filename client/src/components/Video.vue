@@ -1,35 +1,38 @@
 <template>
-  <video
-    ref="video"
-    class="mw-100"
-    crossorigin
-    playsInline
-    :poster="data.thumbnail_url"
-    :src="data.stream_urls.Video[0].file"
-  >
-    <source
-      v-for="source in data.stream_urls.Video"
-      :key="source.label"
-      :src="source.file"
-      :type="source.type"
-      :size="source.label"
-    />
+  <v-flex xs12 :key="source.id">
+    <video
+      ref="video"
+      class="mw-100"
+      crossorigin
+      playsInline
+      :poster="source.thumbnail_url"
+      :src="source.stream_urls.Video[0].file"
+    >
+      <source
+        v-for="source in source.stream_urls.Video"
+        :key="source.label"
+        :src="source.file"
+        :type="source.type"
+        :size="source.label"
+      />
 
-    <track
-      kind="captions"
-      v-for="caption in data.captions"
-      :key="caption.id"
-      :label="caption.video_label"
-      :srclang="caption.locale_id"
-      :src="caption.url"
-    />
-  </video>
+      <track
+        kind="captions"
+        v-for="caption in source.captions"
+        :key="caption.id"
+        :label="caption.video_label"
+        :srclang="caption.locale_id"
+        :src="caption.url"
+        default
+      />
+    </video>
+  </v-flex>
 </template>
 
 <script>
 export default {
   props: {
-    data: {
+    source: {
       type: Object,
       require: true
     }
@@ -39,14 +42,20 @@ export default {
       player: {}
     }
   },
+  methods: {
+    nextLecture() {
+      this.$emit('next')
+    }
+  },
   mounted() {
     this.player = new window.Plyr(this.$refs.video, {
-      seekTime: 5,
-      invertTime: false
-      // autoplay: true
+      seekTime: 5
     })
+
+    this.player.on('ended', this.nextLecture)
   },
-  beforeDestroy() {
+  destroyed() {
+    this.player.off('ended', this.nextLecture)
     this.player.destroy()
   }
 }

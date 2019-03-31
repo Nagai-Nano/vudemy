@@ -1,82 +1,45 @@
 <template>
-  <Loading v-if="isLoading" />
-  <v-container fluid pa-0 ma-0 v-else>
+  <v-container fluid ma-0 pa-0 v-if="!isLoading">
     <v-layout>
-      <HeadTitle :title="title" />
+      <HeadTitle :title="course.title" />
     </v-layout>
-    <v-layout my-4>
-      <div class="mw-100" v-if="lecture.type === 'Video' && lecture.data" :key="lecture.id">
-        <Video :data="lecture.data" />
-      </div>
-      <Loading
-        v-else
-        class="mw-100 d-flex column justify-center align-center"
-        style="min-height: 600px"
-      />
+
+    <v-layout class="my-4" style="position: relative; min-height: 600px;">
+      <template v-if="source">
+        <Video v-if="source.asset.asset_type === 'Video'" :source="source.asset" @next="next" />
+        <div v-else>hi</div>
+      </template>
+
+      <Loading v-else class="source-loading" />
     </v-layout>
+
+    <v-divider class="my-4" />
+
     <v-layout wrap>
       <v-flex xs12>
-        <v-expansion-panel :value="0">
-          <v-expansion-panel-content v-for="chapter in curriculum" :key="chapter.id">
-            <template v-slot:header>
-              <div class="letter-spacing">
-                <h3 class="text-uppercase font-weight-regular">
-                  section {{ chapter.object_index }}:
-                </h3>
-                <h2 class="font-weight-medium">{{ chapter.title || 'Untitled Section' }}</h2>
-              </div>
-            </template>
-            <v-card class="px-4 mb-3">
-              <template v-for="lecture in chapter.lectures">
-                <v-card-text :key="lecture.id" v-if="lecture._class !== 'quiz'" class="pa-0">
-                  <p
-                    @click="setLectureData(lecture)"
-                    class="pa-3 hoverable title font-weight-regular letter-spacing ma-0 d-flex justify-space-around align-center"
-                    :class="{ 'grey darken-2': lecture.object_index === currentIndex }"
-                  >
-                    <span>{{ lecture.object_index }}. {{ lecture.title }}</span>
-                    <span class="text-xs-right subheading">
-                      {{ lecture.asset.length | formatTime(lecture.asset.asset_type) }}
-                    </span>
-                  </p>
-                  <template v-if="lecture.supplementary_assets.length">
-                    <div v-for="asset in lecture.supplementary_assets" :key="asset.id">
-                      <template v-if="asset.asset_type === 'ExternalLink'">
-                        <a
-                          :href="asset.external_url"
-                          class="decoration-none subheading blue--text text--lighten-2 mt-2 d-block grey darken-4 hover-underline px-3 py-2"
-                          target="_blank"
-                        >
-                          {{ asset.title }}
-                        </a>
-                      </template>
-                      <template v-else>
-                        <a
-                          class="decoration-none subheading blue--text text--lighten-2 mt-2 d-block grey darken-4 hover-underline px-3 py-2"
-                          @click.prevent="downloadAssetFile(asset.id)"
-                        >
-                          {{ asset.filename }}
-                        </a>
-                      </template>
-                    </div>
-                  </template>
-                </v-card-text>
-              </template>
-            </v-card>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
+        <h1 class="text-uppercase mb-2 font-weight-regular letter-spacing">curriculum</h1>
+      </v-flex>
+      <v-flex xs12>
+        <Curriculum
+          :curriculum="course.curriculum"
+          :chapter-index="currentChapterIndex"
+          :lecture-index="currentLectureIndex"
+          @setSource="setSource"
+        />
       </v-flex>
     </v-layout>
   </v-container>
+
+  <Loading v-else />
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
 import request from '@/lib/request'
-import { formatTime } from '@/lib/filters'
 import HeadTitle from '@/components/common/HeadTitle'
-import Loading from '@/components/common/Loading'
+import Curriculum from '@/components/Curriculum'
 import Video from '@/components/Video'
+import Loading from '@/components/common/Loading'
 
 export default {
   props: {
@@ -85,55 +48,75 @@ export default {
       required: true
     }
   },
-  components: {
-    HeadTitle,
-    Loading,
-    Video
-  },
   data() {
     return {
-      currentIndex: 0,
-      title: '',
-      curriculum: [],
-      lecture: {
+      course: {
         title: '',
-        type: '',
-        data: {}
+        curriculum: []
+      },
+      source: null,
+      currentLectureIndex: 0,
+      currentChapterIndex: 0
+    }
+  },
+  methods: {
+    ...mapMutations(['SET_LOADING']),
+    async setSource({ lecture, chapterIndex }) {
+      if (chapterIndex !== this.currentChapterIndex) {
+        this.currentChapterIndex = chapterIndex < 0 ? 0 : chapterIndex
       }
+
+      if (lecture.object_index !== this.currentLectureIndex) {
+        this.currentLectureIndex = lecture.object_index
+        this.source = null
+
+        const response = await request(`/course/source/${this.id}/${lecture.id}`)
+        this.source = response
+      }
+    },
+    next() {
+      const nextLectureIndex = this.currentLectureIndex + 1
+      const chapter = this.course.curriculum.filter(c =>
+        c.lectures.find(l => l.object_index === nextLectureIndex)
+      )[0]
+
+      if (!chapter) return
+      const nextLecture = chapter.lectures.find(l => l.object_index === nextLectureIndex)
+      if (!nextLecture) return
+
+      this.setSource({ lecture: nextLecture, chapterIndex: chapter.object_index - 1 })
     }
   },
   computed: {
     ...mapState(['isLoading'])
   },
-  methods: {
-    ...mapMutations(['SET_LOADING']),
-    async downloadAssetFile(id) {},
-    async setLectureData({ id, asset, object_index }) {
-      if (this.currentIndex === object_index) return
-
-      this.currentIndex = object_index
-      this.lecture.data = {}
-      this.lecture.type = ''
-
-      const response = await request(`/course/source/${this.id}/${id}`)
-      this.lecture.data = response.asset
-      this.lecture.type = asset.asset_type
-    }
-  },
-  filters: {
-    formatTime
+  components: {
+    HeadTitle,
+    Curriculum,
+    Video,
+    Loading
   },
   async created() {
     this.SET_LOADING(true)
 
-    const [title, curriculum] = await Promise.all(
+    const [{ title }, { results }] = await Promise.all(
       ['title', 'curriculum'].map(p => request(`/course/${p}/${this.id}`))
     )
-    this.title = title.title
-    this.curriculum = curriculum.results
-    await this.setLectureData(this.curriculum[0].lectures[0])
+    this.course.title = title
+    this.course.curriculum = results
+
+    this.setSource({ lecture: results[0].lectures[0], chapterIndex: 0 })
 
     this.SET_LOADING(false)
   }
 }
 </script>
+
+<style scoped>
+.source-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>

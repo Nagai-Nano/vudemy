@@ -10,5 +10,5 @@ export const formatTime = (value, type) => {
 
   const date = new Date(null)
   date.setSeconds(value)
-  return date.toISOString().substr(14, 5)
+  return date.toISOString().substr(11, 8)
 }
