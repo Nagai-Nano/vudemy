@@ -4,20 +4,24 @@
       <HeadTitle :title="course.title" />
     </v-layout>
 
-    <v-layout class="my-4" style="position: relative; min-height: 600px;">
+    <v-layout class="my-4">
       <template v-if="source">
         <Video v-if="source.asset.asset_type === 'Video'" :source="source.asset" @next="next" />
-        <div v-else>hi</div>
+        <Article v-else :source="source" />
       </template>
 
-      <Loading v-else class="source-loading" />
+      <Loading
+        v-else
+        class="mw-100 d-flex justify-center align-center"
+        style="min-height: 400px !important;"
+      />
     </v-layout>
 
     <v-divider class="my-4" />
 
     <v-layout wrap>
       <v-flex xs12>
-        <h1 class="text-uppercase mb-2 font-weight-regular letter-spacing">curriculum</h1>
+        <p class="headline text-uppercase mb-2 font-weight-regular letter-spacing">curriculum</p>
       </v-flex>
       <v-flex xs12>
         <Curriculum
@@ -40,6 +44,7 @@ import request from '@/lib/request'
 import HeadTitle from '@/components/common/HeadTitle'
 import Curriculum from '@/components/Curriculum'
 import Video from '@/components/Video'
+import Article from '@/components/Article'
 import Loading from '@/components/common/Loading'
 
 export default {
@@ -95,6 +100,7 @@ export default {
     HeadTitle,
     Curriculum,
     Video,
+    Article,
     Loading
   },
   async created() {
@@ -112,12 +118,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.source-loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>

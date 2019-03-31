@@ -57,11 +57,19 @@ exports.getCourseTitle = async (req, res, next) => {
 
 exports.getSource = async (req, res, next) => {
   const { idCourse, idLecture } = req.params
+  let articleContent = null
+
   const { data } = await axios.get(
-    `https://www.udemy.com/api-2.0/users/me/subscribed-courses/${idCourse}/lectures/${idLecture}?fields[asset]=@min,captions,thumbnail_url,stream_urls&fields[caption]=@default`
+    `https://www.udemy.com/api-2.0/users/me/subscribed-courses/${idCourse}/lectures/${idLecture}?fields[asset]=@min,download_urls,slide_urls,captions,thumbnail_url,stream_urls&fields[caption]=@default`
   )
 
-  res.send(data)
+  if (data.asset.asset_type === 'Article') {
+    articleContent = await axios.get(
+      `https://www.udemy.com/api-2.0/assets/${data.asset.id}?fields[asset]=@min,,body`
+    )
+  }
+
+  res.json({ ...data, content: articleContent && articleContent.data.body })
 }
 
 exports.downloadAssetFile = async (req, res) => {

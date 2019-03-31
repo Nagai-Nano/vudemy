@@ -29,7 +29,7 @@
               >
                 <a
                   @click.prevent="downloadAssetFile({ asset, lectureId: lecture.id })"
-                  class="d-block decoration-none hover-underline white--text"
+                  class="d-block decoration-none hover-underline blue--text text--lighten-2"
                 >
                   {{ asset.title }}
                 </a>

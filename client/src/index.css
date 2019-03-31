@@ -42,3 +42,14 @@
   border-radius: 7px;
   background-color: hsla(0, 0%, 100%, 0.6);
 }
+
+.article figure > img {
+  width: 100%;
+  height: auto;
+}
+
+.article a {
+  color: #64b5f6 !important;
+  caret-color: #64b5f6 !important;
+  text-decoration: none;
+}
