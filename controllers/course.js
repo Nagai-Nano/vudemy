@@ -63,3 +63,16 @@ exports.getSource = async (req, res, next) => {
 
   res.send(data)
 }
+
+exports.downloadAssetFile = async (req, res) => {
+  const { idCourse, idLecture, idAsset } = req.params
+  const {
+    data: { download_urls }
+  } = await axios.get(
+    `https://www.udemy.com/api-2.0/users/me/subscribed-courses/${idCourse}/lectures/${idLecture}/supplementary-assets/${idAsset}?fields[asset]=download_urls`
+  )
+
+  const asset = download_urls['File'] || download_urls['SourceCode']
+
+  res.json({ url: asset[0].file })
+}

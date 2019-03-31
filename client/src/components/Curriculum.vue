@@ -27,7 +27,10 @@
                 class="px-3 py-2 ma-0 grey darken-2"
                 :class="{ 'mb-2': index === lecture.supplementary_assets.length - 1 }"
               >
-                <a @click.prevent class="d-block decoration-none hover-underline white--text">
+                <a
+                  @click.prevent="downloadAssetFile({ asset, lectureId: lecture.id })"
+                  class="d-block decoration-none hover-underline white--text"
+                >
                   {{ asset.title }}
                 </a>
               </p>
@@ -41,6 +44,7 @@
 
 <script>
 import { formatTime } from '@/lib/filters'
+import request from '@/lib/request'
 
 export default {
   props: {
@@ -55,6 +59,25 @@ export default {
     lectureIndex: {
       type: Number,
       required: true
+    },
+    courseId: {
+      type: [String, Number],
+      required: true
+    }
+  },
+  methods: {
+    async downloadAssetFile({ asset, lectureId }) {
+      if (asset.external_url) {
+        return window.open(asset.external_url, '_blank')
+      }
+
+      const response = await request(`/course/asset/${this.courseId}/${lectureId}/${asset.id}`)
+
+      const a = document.createElement('a')
+      a.href = response.url
+      a.download = asset.filename
+
+      a.click()
     }
   },
   filters: {

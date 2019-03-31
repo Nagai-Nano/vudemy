@@ -24,6 +24,7 @@
           :curriculum="course.curriculum"
           :chapter-index="currentChapterIndex"
           :lecture-index="currentLectureIndex"
+          :course-id="id"
           @setSource="setSource"
         />
       </v-flex>
