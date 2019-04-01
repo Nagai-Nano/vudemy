@@ -112,6 +112,7 @@ export default {
     this.course.title = title
     this.course.curriculum = results
 
+    document.title = `VUDEMY | ${title.toUpperCase()}`
     this.setSource({ lecture: results[0].lectures[0], chapterIndex: 0 })
 
     this.SET_LOADING(false)

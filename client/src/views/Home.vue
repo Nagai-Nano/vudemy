@@ -62,6 +62,7 @@ export default {
     ...mapMutations(['SET_LOADING'])
   },
   async created() {
+    document.title = 'VUDEMY | FREE UDEMY COURSES'
     this.SET_LOADING(true)
 
     const responses = await Promise.all(this.sections.map(s => request(s.api)))

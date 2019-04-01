@@ -82,6 +82,8 @@ export default {
       this.title = 'recently enrolled'
     }
 
+    document.title = `VUDEMY | ${this.title.replace('search by:', '').toUpperCase()}`
+
     this.SET_LOADING(false)
   }
 }

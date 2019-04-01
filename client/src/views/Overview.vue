@@ -96,6 +96,8 @@ export default {
     const response = await request(`/course/detail/${this.id}`)
     this.detail = response
 
+    document.title = `VUDEMY | ${response.title.toUpperCase()} OVERVIEW`
+
     this.SET_LOADING(false)
   }
 }
