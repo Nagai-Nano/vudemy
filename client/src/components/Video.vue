@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     nextLecture() {
-      this.$emit('next')
+      this.$emit('changeLecture', 1)
     }
   },
   mounted() {

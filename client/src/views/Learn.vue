@@ -1,13 +1,23 @@
 <template>
-  <v-container fluid ma-0 pa-0 v-if="!isLoading">
+  <v-container fluid ma-0 pa-0 v-if="!isLoading" ref="learn">
     <v-layout>
       <HeadTitle :title="course.title" />
     </v-layout>
 
-    <v-layout class="my-4">
+    <v-layout row wrap class="my-4">
       <template v-if="source">
-        <Video v-if="source.asset.asset_type === 'Video'" :source="source.asset" @next="next" />
+        <Video
+          v-if="source.asset.asset_type === 'Video'"
+          :source="source.asset"
+          @changeLecture="changeLecture"
+        />
         <Article v-else :source="source" />
+        <Controls
+          :source="source"
+          :current-index="currentLectureIndex"
+          :curriculum="course.curriculum"
+          @changeLecture="changeLecture"
+        />
       </template>
 
       <Loading
@@ -45,6 +55,7 @@ import HeadTitle from '@/components/common/HeadTitle'
 import Curriculum from '@/components/Curriculum'
 import Video from '@/components/Video'
 import Article from '@/components/Article'
+import Controls from '@/components/Controls'
 import Loading from '@/components/common/Loading'
 
 export default {
@@ -76,12 +87,18 @@ export default {
         this.currentLectureIndex = lecture.object_index
         this.source = null
 
+        if (this.$refs.learn) {
+          this.$refs.learn.scrollIntoView({
+            behavior: 'smooth'
+          })
+        }
+
         const response = await request(`/course/source/${this.id}/${lecture.id}`)
         this.source = response
       }
     },
-    next() {
-      const nextLectureIndex = this.currentLectureIndex + 1
+    changeLecture(num) {
+      const nextLectureIndex = this.currentLectureIndex + num
       const chapter = this.course.curriculum.filter(c =>
         c.lectures.find(l => l.object_index === nextLectureIndex)
       )[0]
@@ -101,6 +118,7 @@ export default {
     Curriculum,
     Video,
     Article,
+    Controls,
     Loading
   },
   async created() {
@@ -113,7 +131,7 @@ export default {
     this.course.curriculum = results
 
     document.title = `VUDEMY | ${title.toUpperCase()}`
-    this.setSource({ lecture: results[0].lectures[0], chapterIndex: 0 })
+    await this.setSource({ lecture: results[0].lectures[0], chapterIndex: 0 })
 
     this.SET_LOADING(false)
   }

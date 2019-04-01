@@ -1,6 +1,5 @@
 <template>
   <v-flex xs12 class="shadow text-xs-center overflow-x-hidden overflow-y-auto article">
-    <h1 class="font-weight-regular letter-spacing">{{ source.title }}</h1>
     <div style="max-width: 90%; margin: auto" class="py-2">
       <template v-if="assetType === 'Article'">
         <div
