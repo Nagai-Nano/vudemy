@@ -15,7 +15,10 @@
               class="hoverable pa-3 ma-0 subheading d-flex align-center"
               :class="{ 'grey darken-2': lectureIndex === lecture.object_index }"
             >
-              <span>{{ lecture.object_index }}. {{ lecture.title }}</span>
+              <span>
+                <v-icon left class="mr-1">{{ icon(lecture.asset.asset_type) }}</v-icon>
+                {{ lecture.object_index }}. {{ lecture.title }}
+              </span>
               <span class="text-xs-right grey--text text--lighten-2">
                 {{ lecture.asset.length | formatTime(lecture.asset.asset_type) }}
               </span>
@@ -29,8 +32,16 @@
               >
                 <a
                   @click.prevent="downloadAssetFile({ asset, lectureId: lecture.id })"
-                  class="d-block decoration-none hover-underline blue--text text--lighten-2"
+                  class="d-block hover-underline decoration-none blue--text text--lighten-2"
                 >
+                  <v-icon
+                    small
+                    left
+                    class="mx-1 blue--text text--lighten-2"
+                    style="padding-bottom: 1px"
+                  >
+                    {{ icon(asset.asset_type) }}
+                  </v-icon>
                   {{ asset.title }}
                 </a>
               </p>
@@ -78,6 +89,22 @@ export default {
       a.download = asset.filename
 
       a.click()
+    },
+    icon(type) {
+      switch (type) {
+        case 'Video':
+          return 'play_arrow'
+        case 'Article':
+          return 'subject'
+        case 'Presentation':
+          return 'collections'
+        case 'E-Book':
+          return 'book'
+        case 'ExternalLink':
+          return 'link'
+        default:
+          return 'description'
+      }
     }
   },
   filters: {
