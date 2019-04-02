@@ -7,7 +7,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm run serve --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\" --kill-others-on-fail"
+    "dev": "concurrently \"npm run server\" \"npm run client\" --kill-others-on-fail",
+    "build": "npm run build --prefix client"
   },
   "author": "Nanu <sdjkrskldada@gmail.com> (https://www.facebook.com/Nanoooooooooooooooooooooooooooooooooooooooooooooox)",
   "license": "MIT",
