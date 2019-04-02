@@ -1,9 +1,9 @@
 <template>
-  <v-layout row wrap ma-0 pa-0 d-flex align-center>
-    <v-flex md7>
+  <v-layout row wrap ma-0 pa-0 d-flex align-center mt-2>
+    <v-flex xs12 sm7>
       <p class="headline mb-0 letter-spacing">{{ currentIndex }}. {{ source.title }}</p>
     </v-flex>
-    <v-flex md5 d-flex align-center justify-end>
+    <v-flex xs12 sm5 d-flex align-center justify-end>
       <v-btn depressed v-if="!isFirst" @click="changeLecture(-1)">Prev</v-btn>
 
       <v-menu v-if="source.asset.asset_type === 'Video'" offset-y>

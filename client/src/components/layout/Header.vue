@@ -1,6 +1,6 @@
 <template>
   <header>
-    <v-toolbar app flat clipped-left :extended="bp.smAndDown && toggleSearch">
+    <v-toolbar app flat clipped-left :extended="bp.smAndDown && toggleSearch" style="z-index: 9">
       <v-toolbar-side-icon v-if="bp.smAndDown" @click="drawer = !drawer" />
       <v-toolbar-title class="text-uppercase letter-spacing ma-0">
         <router-link to="/" class="white--text decoration-none d-flex justify-center align-center">
@@ -33,13 +33,13 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import bpMixin from '@/lib/breakpointMixin'
+import breakpointMixin from '@/lib/breakpointMixin'
 import SearchBar from './SearchBar'
 import ToolbarItems from './ToolbarItems'
 import Drawer from './Drawer'
 
 export default {
-  mixins: [bpMixin],
+  mixins: [breakpointMixin],
   data() {
     return {
       drawer: false,

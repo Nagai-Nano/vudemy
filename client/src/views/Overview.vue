@@ -5,10 +5,10 @@
       <HeadTitle :title="detail.title" />
     </v-layout>
     <v-layout wrap mt-4>
-      <v-flex md4>
+      <v-flex xs12 md4>
         <ImageItem :src="detail.image_480x270" max-height="270px" />
       </v-flex>
-      <v-flex md8 pl-3 class="letter-spacing">
+      <v-flex xs12 md8 class="letter-spacing" :class="{ 'pl-3': bp.mdAndUp, 'mt-2': bp.smAndDown }">
         <h2 class="mb-2 headline font-weight-regular">{{ detail.headline }}</h2>
         <h2>
           Skill level : <span class="font-weight-regular">{{ detail.instructional_level }}</span>
@@ -63,11 +63,13 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import request from '@/lib/request'
+import breakpointMixin from '@/lib/breakpointMixin'
 import HeadTitle from '@/components/common/HeadTitle'
 import ImageItem from '@/components/common/ImageItem'
 import Loading from '@/components/common/Loading'
 
 export default {
+  mixins: [breakpointMixin],
   props: {
     id: {
       type: [String, Number],

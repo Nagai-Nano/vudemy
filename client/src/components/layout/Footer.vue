@@ -1,5 +1,5 @@
 <template>
-  <v-footer absolute height="auto" style="bottom: -85px">
+  <v-footer absolute height="auto" style="bottom: -83px">
     <v-container>
       <p class="subheading letter-spacing mb-1">
         Copyright &copy; 2019 Vudemy 🐧. Developed by

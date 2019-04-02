@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer app clipped floating :value="drawer" class="grey darken-4">
     <v-container>
-      <v-list subheader>
+      <v-list subheader class="mt-5">
         <v-list-tile to="/">
           <v-list-tile-action>
             <v-icon class="white--text">home</v-icon>

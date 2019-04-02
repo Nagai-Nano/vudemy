@@ -12,14 +12,14 @@
           <template v-if="lecture._class === 'lecture'">
             <p
               @click="$emit('setSource', { lecture, chapterIndex: chapter.object_index - 1 })"
-              class="hoverable pa-3 ma-0 subheading d-flex align-center"
+              class="hoverable pa-3 ma-0 subheading d-flex align-center justify-center"
               :class="{ 'grey darken-2': lectureIndex === lecture.object_index }"
             >
-              <span>
+              <span style="width: 70%">
                 <v-icon left class="mr-1">{{ icon(lecture.asset.asset_type) }}</v-icon>
                 {{ lecture.object_index }}. {{ lecture.title }}
               </span>
-              <span class="text-xs-right grey--text text--lighten-2">
+              <span style="width: 30%" class="mt-1 text-xs-right grey--text text--lighten-2">
                 {{ lecture.asset.length | formatTime(lecture.asset.asset_type) }}
               </span>
             </p>
