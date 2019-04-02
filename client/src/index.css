@@ -1,0 +1,55 @@
+.decoration-none {
+  text-decoration: none;
+}
+
+.letter-spacing {
+  letter-spacing: 1px !important;
+}
+
+.hover-underline:hover {
+  text-decoration: underline;
+}
+
+.hoverable:hover {
+  background: #616161;
+  cursor: pointer;
+}
+
+.mw-100 {
+  min-width: 100% !important;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: #232323;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 6px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 7px;
+  background-color: hsla(0, 0%, 100%, 0.6);
+}
+
+.article figure > img {
+  width: 100%;
+  height: auto;
+}
+
+.article a {
+  color: #64b5f6 !important;
+  caret-color: #64b5f6 !important;
+  text-decoration: none;
+}
