@@ -1,90 +1,64 @@
 <template>
   <header>
-    <v-toolbar dark flat>
-      <v-toolbar-side-icon></v-toolbar-side-icon>
+    <v-toolbar app flat clipped-left :extended="bp.smAndDown && toggleSearch">
+      <v-toolbar-side-icon v-if="bp.smAndDown" @click="drawer = !drawer" />
       <v-toolbar-title class="text-uppercase letter-spacing ma-0">
-        <router-link to="/" class="white--text decoration-none">Vudemy</router-link>
+        <router-link to="/" class="white--text decoration-none d-flex justify-center align-center">
+          <img :src="require('@/assets/logo.png')" style="width: 35px" />
+          udemy
+        </router-link>
       </v-toolbar-title>
 
-      <v-spacer />
-      <v-text-field
-        placeholder="Search course..."
-        autofocus
-        solo
-        class="mt-2"
-        color="white"
-        flat
-        append-icon="search"
-        clearable
-        v-model="q"
-        @keyup.enter="search"
-      />
-      <v-spacer />
+      <template v-if="bp.mdAndUp">
+        <v-spacer />
+        <SearchBar class="mt-2" />
+        <v-spacer />
+        <ToolbarItems :categories="categories" />
+      </template>
 
-      <v-toolbar-items>
-        <v-btn flat>Home</v-btn>
-        <v-menu :nudge-width="100">
-          <template v-slot:activator="{ on }">
-            <v-toolbar-title v-on="on" style="cursor: pointer;" class="d-flex align-center">
-              <span class="text-uppercase font-weight-medium white--text body-2">category</span>
-              <v-icon dark>arrow_drop_down</v-icon>
-            </v-toolbar-title>
-          </template>
+      <template v-if="bp.smAndDown">
+        <v-spacer />
+        <v-icon @click="toggleSearch = !toggleSearch">
+          {{ toggleSearch ? 'close' : 'search' }}
+        </v-icon>
+      </template>
 
-          <template v-if="categories.length">
-            <v-list class="py-0 grey darken-4">
-              <v-list-tile v-for="cat in categories" :key="cat.id">
-                <v-list-tile-title>
-                  <router-link
-                    :to="`/courses/?category_id=${cat.id}`"
-                    class="white--text decoration-none"
-                  >
-                    <p class="pa-0 ma-0">{{ cat.title }}</p>
-                  </router-link>
-                </v-list-tile-title>
-              </v-list-tile>
-            </v-list>
-          </template>
-        </v-menu>
-      </v-toolbar-items>
+      <template v-if="bp.smAndDown && toggleSearch" v-slot:extension>
+        <SearchBar />
+      </template>
     </v-toolbar>
+    <Drawer v-if="bp.smAndDown" :drawer="drawer" :categories="categories" />
   </header>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import bpMixin from '@/lib/breakpointMixin'
+import SearchBar from './SearchBar'
+import ToolbarItems from './ToolbarItems'
+import Drawer from './Drawer'
 
 export default {
+  mixins: [bpMixin],
   data() {
     return {
-      q: ''
+      drawer: false,
+      toggleSearch: false
     }
+  },
+  components: {
+    SearchBar,
+    ToolbarItems,
+    Drawer
   },
   computed: {
     ...mapGetters(['categories'])
   },
   methods: {
-    ...mapActions(['getCategories']),
-    search() {
-      if (this.q) {
-        this.$router.push(`/courses/?search=${this.q}`)
-      }
-    }
+    ...mapActions(['getCategories'])
   },
   created() {
     this.getCategories()
   }
 }
 </script>
-
-<style scoped>
-.v-menu__content {
-  top: 64px !important;
-  left: 1123px !important;
-}
-
-div[role='listitem']:hover {
-  cursor: pointer;
-  background: #424242;
-}
-</style>
