@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md fluid pa-0 ma-0 mt-3>
     <v-layout row wrap>
-      <v-flex v-for="course in courses" :key="course.id" md3 d-flex>
+      <v-flex v-for="(course, index) in courses" :key="index" md3 d-flex>
         <v-card flat hover>
           <router-link :to="`/course/${course.id}/overview`">
             <ImageItem :src="course.image_240x135" max-height="135px" />

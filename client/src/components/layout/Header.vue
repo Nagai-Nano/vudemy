@@ -16,6 +16,8 @@
         flat
         append-icon="search"
         clearable
+        v-model="q"
+        @keyup.enter="search"
       />
       <v-spacer />
 
@@ -53,11 +55,21 @@
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
+  data() {
+    return {
+      q: ''
+    }
+  },
   computed: {
     ...mapGetters(['categories'])
   },
   methods: {
-    ...mapActions(['getCategories'])
+    ...mapActions(['getCategories']),
+    search() {
+      if (this.q) {
+        this.$router.push(`/courses/?search=${this.q}`)
+      }
+    }
   },
   created() {
     this.getCategories()

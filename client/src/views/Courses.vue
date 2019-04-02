@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid pa-0 ma-0>
+  <v-container fluid pa-0 ma-0 mb-3>
     <v-layout wrap v-if="!isLoading || courses.length">
       <HeadTitle :title="title" />
       <InfiniteScroll :has-next="hasNext" :is-loading="isLoading" @loadmore="loadmore">
