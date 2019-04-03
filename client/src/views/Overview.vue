@@ -45,7 +45,7 @@
         <div class="d-flex align-center">
           <img
             :src="instructor.image_200_H"
-            style="border-radius: 50%; flex-grow: 0!important; width: 100px!important; height: 100px!important"
+            style="border-radius: 50%; flex-grow: 0; min-width: 100px!important; max-width: 100px !important; height: 100px!important"
           />
           <div class="ml-3">
             <h2 class="font-weight-regular letter-spacing">{{ instructor.display_name }}</h2>
