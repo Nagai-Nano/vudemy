@@ -27,12 +27,12 @@
               <p
                 v-for="(asset, index) in lecture.supplementary_assets"
                 :key="asset.id"
-                class="px-3 py-2 ma-0 grey darken-2"
+                class="px-3 py-2 ma-0 grey darken-2 text-truncate"
                 :class="{ 'mb-2': index === lecture.supplementary_assets.length - 1 }"
               >
                 <a
                   @click.prevent="downloadAssetFile({ asset, lectureId: lecture.id })"
-                  class="d-block hover-underline decoration-none blue--text text--lighten-2"
+                  class="d-block text-truncate hover-underline decoration-none blue--text text--lighten-2"
                 >
                   <v-icon
                     small
@@ -42,7 +42,9 @@
                   >
                     {{ icon(asset.asset_type) }}
                   </v-icon>
-                  {{ asset.title }}
+                  <span class="text-truncate d-inline-block" style="vertical-align: middle;">
+                    {{ asset.title }}
+                  </span>
                 </a>
               </p>
             </template>
