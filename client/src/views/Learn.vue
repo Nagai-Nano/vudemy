@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid ma-0 pa-0 v-if="!isLoading" ref="learn">
+  <v-container fluid ma-0 pa-0 mb-4 v-if="!isLoading" ref="learn">
     <v-layout>
       <HeadTitle :title="course.title" />
     </v-layout>

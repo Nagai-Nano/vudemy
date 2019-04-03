@@ -1,6 +1,6 @@
 <template>
   <Loading v-if="isLoading" />
-  <v-container fluid pa-0 ma-0 v-else>
+  <v-container fluid pa-0 ma-0 v-else mb-4>
     <v-layout>
       <HeadTitle :title="detail.title" />
     </v-layout>

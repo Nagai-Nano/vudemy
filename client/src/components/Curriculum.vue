@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel class="mb-4" :value="chapterIndex">
+  <v-expansion-panel :value="chapterIndex">
     <v-expansion-panel-content v-for="chapter in curriculum" :key="chapter.id">
       <template v-slot:header>
         <div class="letter-spacing">

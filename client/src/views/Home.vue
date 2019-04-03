@@ -1,6 +1,6 @@
 <template>
   <Loading v-if="isLoading" />
-  <v-container fluid pa-0 ma-0 v-else>
+  <v-container fluid pa-0 ma-0 v-else mb-4>
     <v-layout wrap v-for="(section, index) in sections" :key="index">
       <HeadTitle :title="section.title" :class="{ 'mt-3': index > 0 }" />
       <v-flex xs12 v-if="section.courses.length">
