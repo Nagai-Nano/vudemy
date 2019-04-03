@@ -35,7 +35,6 @@
 
 <script>
 import ImageItem from './ImageItem'
-import { textTruncate } from '@/lib/filters'
 
 export default {
   props: {
@@ -46,9 +45,6 @@ export default {
   },
   components: {
     ImageItem
-  },
-  filters: {
-    textTruncate
   }
 }
 </script>
