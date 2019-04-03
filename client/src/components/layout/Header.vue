@@ -28,6 +28,7 @@
       </template>
     </v-toolbar>
     <Drawer v-if="bp.smAndDown" :drawer="drawer" :categories="categories" />
+    {{ bp }}
   </header>
 </template>
 
